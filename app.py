@@ -1,12 +1,11 @@
 """
-AI Tutor - Local AI Study Buddy
+AI Tutor - Smart Learning Assistant
 
 A privacy-focused AI tutoring application that runs entirely on your local machine.
 Provides personalized explanations and generates custom quizzes across multiple subjects.
 
-Author: Hariom Kumar
-License: MIT
-Repository: https://github.com/hari7261/AI-Tutor
+Team: 404 Found
+Repository: https://github.com/iayanbhunia/AI-Tutor
 """
 
 import streamlit as st
@@ -75,7 +74,7 @@ if "messages" not in st.session_state:
     st.session_state.messages = []
 
 # App title
-st.title("🎓 Local AI Study Buddy")
+st.title("🎓 Smart Learning Assistant")
 
 # Sidebar for settings
 with st.sidebar:
