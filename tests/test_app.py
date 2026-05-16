@@ -100,7 +100,7 @@ class TestAppConfiguration:
     
     def test_education_levels(self):
         """Test that all education levels are defined."""
-        expected_levels = ["School", "High School", "Graduate", "PG/PhD"]
+        expected_levels = ["School", "High School", "UG", "PG", "PhD"]
         # This test would need access to the selectbox options
         # In a real test, we'd mock the streamlit components
         assert True  # Placeholder
