@@ -241,10 +241,6 @@ We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.
 - [ ] **Collaborative Learning** - Share sessions with classmates
 - [ ] **Mobile App** - Native mobile applications
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 ## 🙏 Acknowledgments
 
 - [Ollama](https://ollama.ai/) for providing the local AI infrastructure
@@ -254,8 +250,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-- 🐛 **Issues**: [GitHub Issues](https://github.com/hari7261/AI-Tutor/issues)
-- 💬 **Discussions**: [GitHub Discussions](https://github.com/hari7261/AI-Tutor/discussions)
+- 🐛 **Issues**: [GitHub Issues](https://github.com/iayanbhunia/AI-Tutor/issues)
+- 💬 **Discussions**: [GitHub Discussions](https://github.com/iayanbhunia/AI-Tutor/discussions)
 - 📧 **Email**: [Contact Us](mailto:your-email@example.com)
 
 ---
