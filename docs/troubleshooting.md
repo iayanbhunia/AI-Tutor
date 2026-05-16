@@ -430,7 +430,7 @@ Before seeking help, collect:
 ### 2. Check Resources
 - [Ollama Documentation](https://ollama.ai/docs)
 - [Streamlit Documentation](https://docs.streamlit.io)
-- [GitHub Issues](https://github.com/hari7261/AI-Tutor/issues)
+- [GitHub Issues](https://github.com/iayanbhunia/AI-Tutor/issues)
 
 ### 3. Report Issues
 When reporting bugs:
@@ -440,7 +440,7 @@ When reporting bugs:
 - Describe expected vs actual behavior
 
 ### 4. Community Support
-- [GitHub Discussions](https://github.com/hari7261/AI-Tutor/discussions)
+- [GitHub Discussions](https://github.com/iayanbhunia/AI-Tutor/discussions)
 - Stack Overflow (tag: ai-tutor)
 - Reddit communities
 
