@@ -401,9 +401,3 @@ New contributors can request mentorship for:
 - Best practices guidance
 
 ## 🎉 Thank You!
-
-Every contribution helps make AI Tutor better for learners everywhere. Whether it's a bug report, feature suggestion, or code contribution, your help is appreciated!
-
----
-
-**Ready to contribute?** Start by checking our [Good First Issues](https://github.com/hari7261/AI-Tutor/labels/good%20first%20issue) label!
