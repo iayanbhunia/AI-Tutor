@@ -232,14 +232,4 @@ After successful installation:
 3. **Customize Settings**: Adjust education level and subjects
 4. **Explore Features**: Try both explanation and quiz modes
 
-## Getting Help
-
-If you encounter issues during installation:
-
-1. **Check Troubleshooting**: [docs/troubleshooting.md](troubleshooting.md)
-2. **GitHub Issues**: [Report a bug](https://github.com/hari7261/AI-Tutor/issues)
-3. **Discussions**: [Community help](https://github.com/hari7261/AI-Tutor/discussions)
-
----
-
 **Success!** 🎉 You should now have AI Tutor running locally on your machine.
