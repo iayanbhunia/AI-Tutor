@@ -16,8 +16,9 @@ The sidebar contains all your learning preferences:
 #### Education Level
 - **School** (Ages 6-14): Simple explanations, basic vocabulary
 - **High School** (Ages 14-18): Moderate complexity, exam preparation
-- **Graduate** (Ages 18-22): Advanced concepts, research-oriented
-- **PG/PhD** (Ages 22+): Expert-level explanations, cutting-edge topics
+- **UG** (Ages 18-22): Advanced concepts, research-oriented
+- **PG** (Ages 22+): Expert-level explanations, cutting-edge topics
+- **PhD** (Ages 22+): Expert-level explanations, cutting-edge topics
 
 #### Subject Selection
 - **Math**: Algebra, calculus, statistics, geometry
@@ -49,7 +50,7 @@ Output: Step-by-step breakdown including:
 - Practice examples
 ```
 
-**Computer Science - Graduate Level:**
+**Computer Science - UG Level:**
 ```
 Input: "Explain machine learning algorithms"
 Output: Comprehensive coverage including:
@@ -90,7 +91,7 @@ Output: Multiple-choice question with:
 - Detailed explanation of the answer
 ```
 
-**Math - Graduate Level:**
+**Math - UG Level:**
 ```
 Input: "Calculus derivatives"
 Output: Problem-solving question with:
