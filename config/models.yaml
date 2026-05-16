@@ -30,21 +30,21 @@ model_info:
     speed: "Fast"
     quality: "Excellent"
     best_for: ["Education", "General Knowledge", "Explanations"]
-    education_levels: ["School", "High School", "Graduate", "PG/PhD"]
+    education_levels: ["School", "High School", "UG", "PG", "PhD"]
     
   deepseek-coder:
     size: "776MB"
     speed: "Very Fast"
     quality: "Excellent for Code"
     best_for: ["Programming", "Computer Science", "Technical Topics"]
-    education_levels: ["High School", "Graduate", "PG/PhD"]
+    education_levels: ["High School", "UG", "PG", "PhD"]
     
   llama3:
     size: "4.7GB"
     speed: "Medium"
     quality: "Very Good"
     best_for: ["General Purpose", "Research", "Analysis"]
-    education_levels: ["Graduate", "PG/PhD"]
+    education_levels: ["UG", "PG", "PhD"]
 
 # Education level configurations
 education_settings:
