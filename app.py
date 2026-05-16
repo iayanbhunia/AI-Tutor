@@ -84,7 +84,7 @@ with st.sidebar:
     # Education level dropdown
     education_level = st.selectbox(
         "Select your education level",
-        ["School", "High School", "Graduate", "PG/PhD"],
+        ["School", "High School", "UG", "PG", "Phd"],
         index=1
     )
     
