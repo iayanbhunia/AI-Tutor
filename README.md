@@ -252,7 +252,7 @@ We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.
 
 - 🐛 **Issues**: [GitHub Issues](https://github.com/iayanbhunia/AI-Tutor/issues)
 - 💬 **Discussions**: [GitHub Discussions](https://github.com/iayanbhunia/AI-Tutor/discussions)
-- 📧 **Email**: [Contact Us](mailto:your-email@example.com)
+- 📧 **Email**: [Contact Us](mailto:imayan0904@gmail.com)
 
 ---
 
