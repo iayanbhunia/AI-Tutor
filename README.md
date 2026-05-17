@@ -1,4 +1,4 @@
-# 🎓 AI Tutor - Local AI Study Buddy
+# 🎓 AI Tutor - Smart Learning Assistant
 
 [![Python](https://img.shields.io/badge/Python-3.7%2B-blue.svg)](https://www.python.org/)
 [![Streamlit](https://img.shields.io/badge/Streamlit-1.28%2B-red.svg)](https://streamlit.io/)
