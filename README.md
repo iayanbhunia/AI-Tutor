@@ -6,7 +6,6 @@
 
 A powerful, privacy-focused AI tutoring application that runs entirely on your local machine. Get personalized explanations and generate custom quizzes across multiple subjects without sending any data to external servers.
 
-![AI Tutor Demo](/image.png)
 
 ## ✨ Features
 
