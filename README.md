@@ -11,7 +11,7 @@ A powerful, privacy-focused AI tutoring application that runs entirely on your l
 
 ### 🎯 **Personalized Learning**
 - **Multiple Education Levels**: School, High School, UG, PG, PhD
-- **Subject Variety**: Math, History, Computer Science, Physics, Biology, Chemistry
+- **Any Subject**: Type any subject freely — Math, History, Law, Economics, and more
 - **Adaptive Explanations**: Content complexity adjusts to your education level
 
 ### 🤖 **Dual Learning Modes**
@@ -77,7 +77,7 @@ A powerful, privacy-focused AI tutoring application that runs entirely on your l
 
 ### 1. Configure Your Learning Preferences
 - **Education Level**: Select your current academic level
-- **Subject**: Choose the subject you want to study
+- **Subject**: Type any subject you want to study (e.g. Math, Law, Economics)
 - **Mode**: Pick between explanation or quiz generation
 - **AI Model**: The app will automatically detect and list available models
 
@@ -125,9 +125,9 @@ AI-Tutor/
 - Scales problem difficulty appropriately
 
 ### 3. **Subject-Specific Prompting**
-- Tailors AI responses to subject context
-- Incorporates subject-specific terminology
-- Provides relevant examples and analogies
+- Accepts any subject typed freely by the user
+- Incorporates subject context into AI prompts
+- Provides relevant examples and analogies for any topic
 
 ### 4. **Streaming Response Handler**
 - Real-time response display for better user experience
@@ -151,16 +151,10 @@ The application prioritizes models in the following order:
 Edit `config/models.yaml` to customize model preferences:
 
 ```yaml
-models:
-  preferred_order:
-    - "gemma3:latest"
-    - "deepseek-coder"
-    - "llama3"
-  
-  subject_recommendations:
-    "Computer Science": "deepseek-coder"
-    "Math": "gemma3"
-    "Physics": "gemma3"
+preferred_models:
+  - "gemma3:latest"
+  - "deepseek-coder"
+  - "llama3"
 ```
 
 ## 🛠️ Development
