@@ -176,8 +176,6 @@ with st.sidebar:
         st.code("ollama pull llama3\nollama pull deepseek-coder", language="bash")
         model_name = None
 
-    st.markdown("---")
-    st.markdown("🔒 **100% Private** – No data leaves your device.")
 
     # Clear conversation
     if st.button("🗑️ Clear Conversation"):
