@@ -120,7 +120,7 @@ with st.sidebar:
     # FREE TEXT subject input — type anything
     custom_subject = st.text_input(
         "Enter a subject",
-        placeholder="e.g. Math, Physics, Economics, Law...",
+        placeholder="e.g. Math, Law, Economics...",
         max_chars=50,
     )
     subject = custom_subject.strip() if custom_subject.strip() else "General"
