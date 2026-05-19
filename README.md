@@ -10,7 +10,7 @@ A powerful, privacy-focused AI tutoring application that runs entirely on your l
 ## ✨ Features
 
 ### 🎯 **Personalized Learning**
-- **Multiple Education Levels**: School, High School, Graduate, PG/PhD
+- **Multiple Education Levels**: School, High School, UG, PG, PhD
 - **Subject Variety**: Math, History, Computer Science, Physics, Biology, Chemistry
 - **Adaptive Explanations**: Content complexity adjusts to your education level
 
