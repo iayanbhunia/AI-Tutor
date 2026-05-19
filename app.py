@@ -117,11 +117,15 @@ with st.sidebar:
         index=1,
     )
 
-    subject = st.selectbox(
-        "Choose a subject",
-        ["Math", "History", "Computer Science", "Physics", "Biology", "Chemistry"],
-        index=2,
+    # FREE TEXT subject input — type anything
+    custom_subject = st.text_input(
+        "Enter a subject",
+        placeholder="e.g. Math, Physics, Economics, Law...",
+        max_chars=50,
     )
+    subject = custom_subject.strip() if custom_subject.strip() else "General"
+    if not custom_subject.strip():
+        st.caption("⚠️ No subject entered — using **General**.")
 
     mode = st.radio(
         "Select mode",
