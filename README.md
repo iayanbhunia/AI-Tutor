@@ -97,7 +97,6 @@ AI-Tutor/
 ├── app.py                 # Main Streamlit application
 ├── requirements.txt       # Python dependencies
 ├── README.md             # Project documentation
-├── LICENSE               # MIT License
 ├── .gitignore           # Git ignore rules
 ├── assets/              # Images and media
 │   └── demo.gif         # Application demo
