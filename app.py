@@ -117,10 +117,9 @@ with st.sidebar:
         index=1,
     )
 
-    # FREE TEXT subject input — type anything
+    # Free text subject — no hints, no specific names
     custom_subject = st.text_input(
         "Enter a subject",
-        placeholder="e.g. Math, Law, Economics...",
         max_chars=50,
     )
     subject = custom_subject.strip() if custom_subject.strip() else "General"
@@ -176,7 +175,6 @@ with st.sidebar:
         st.code("ollama pull llama3\nollama pull deepseek-coder", language="bash")
         model_name = None
 
-
     # Clear conversation
     if st.button("🗑️ Clear Conversation"):
         st.session_state.messages = []
@@ -195,7 +193,7 @@ for message in st.session_state.messages:
 chat_placeholder = (
     f"Enter a topic to generate {num_questions} question{'s' if num_questions > 1 else ''}..."
     if mode == "Generate a Quiz"
-    else f"Ask a {subject} question..."
+    else "Ask a question..."
 )
 
 if prompt := st.chat_input(chat_placeholder):
@@ -217,18 +215,15 @@ if prompt := st.chat_input(chat_placeholder):
     with st.chat_message("assistant"):
         message_placeholder = st.empty()
 
-        # Show a loading hint for multi-question quizzes
         if mode == "Generate a Quiz" and num_questions > 1:
             message_placeholder.markdown(f"⏳ Generating {num_questions} questions, please wait...")
 
         full_response = ""
 
-        # Build prompt via extracted function
         system_prompt = build_prompt(
             mode, education_level, subject, prompt, num_questions
         )
 
-        # Pass full conversation history so the model has context
         history = [
             {"role": m["role"], "content": m["content"]}
             for m in st.session_state.messages[:-1]
@@ -261,5 +256,4 @@ if prompt := st.chat_input(chat_placeholder):
             message_placeholder.markdown(error_msg)
             full_response = error_msg
 
-        # Save assistant reply to session history
         st.session_state.messages.append({"role": "assistant", "content": full_response})
