@@ -1,403 +1,204 @@
 # 🤝 Contributing to AI Tutor
 
-Thank you for your interest in contributing to AI Tutor! This guide will help you get started with contributing to the project.
+Thank you for being part of the AI Tutor project! This guide helps every team member work consistently and avoid conflicts.
 
-## 🚀 Quick Start for Contributors
+---
 
-### 1. Fork and Clone
+## 📋 Table of Contents
+
+- [Getting Started](#-getting-started)
+- [Branch Naming Rules](#-branch-naming-rules)
+- [Making Changes](#-making-changes)
+- [Running the Project Locally](#-running-the-project-locally)
+- [Running Tests](#-running-tests)
+- [Opening a Pull Request](#-opening-a-pull-request)
+- [Code Style Guidelines](#-code-style-guidelines)
+- [Commit Message Format](#-commit-message-format)
+- [Reporting Bugs](#-reporting-bugs)
+
+---
+
+## 🚀 Getting Started
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/iayanbhunia/AI-Tutor.git
+   cd AI-Tutor
+   ```
+
+2. **Create a virtual environment**
+   ```bash
+   python -m venv venv
+   source venv/bin/activate        # Mac/Linux
+   venv\Scripts\activate           # Windows
+   ```
+
+3. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. **Install Ollama and pull a model**
+   ```bash
+   ollama pull gemma3
+   ollama serve
+   ```
+
+5. **Run the app**
+   ```bash
+   streamlit run app.py
+   ```
+
+---
+
+## 🌿 Branch Naming Rules
+
+Always create a new branch before making changes. **Never push directly to `main`.**
+
+| Type | Format | Example |
+|------|--------|---------|
+| New feature | `feature/short-description` | `feature/score-tracker` |
+| Bug fix | `fix/short-description` | `fix/empty-prompt-crash` |
+| Documentation | `docs/short-description` | `docs/update-readme` |
+| Tests | `test/short-description` | `test/quiz-prompt-cases` |
+| Refactor | `refactor/short-description` | `refactor/build-prompt` |
+
 ```bash
-# Fork the repository on GitHub
-# Clone your fork
-git clone https://github.com/YOUR_USERNAME/AI-Tutor.git
-cd AI-Tutor
-
-# Add upstream remote
-git remote add upstream https://github.com/iayanbhunia/AI-Tutor.git
-```
-
-### 2. Set Up Development Environment
-```bash
-# Create virtual environment
-python -m venv ai-tutor-dev
-source ai-tutor-dev/bin/activate  # macOS/Linux
-ai-tutor-dev\Scripts\activate     # Windows
-
-# Install development dependencies
-pip install -r requirements-dev.txt
-
-# Install pre-commit hooks
-pre-commit install
-```
-
-### 3. Create a Branch
-```bash
-# Create feature branch
+# Create and switch to a new branch
 git checkout -b feature/your-feature-name
-
-# Or bug fix branch
-git checkout -b fix/issue-number
 ```
 
-## 📋 Types of Contributions
+---
 
-### 🐛 Bug Reports
-Found a bug? Help us fix it!
+## ✏️ Making Changes
 
-**Before reporting:**
-- Check existing issues
-- Test with latest version
-- Gather system information
+1. Make sure you are on your own branch, not `main`
+2. Make small, focused commits — one change per commit
+3. Test your changes locally before pushing
+4. Pull the latest `main` before opening a PR to avoid conflicts:
+   ```bash
+   git pull origin main
+   ```
 
-**Include in your report:**
-- Clear description of the bug
-- Steps to reproduce
-- Expected vs actual behavior
-- System information (OS, Python version, etc.)
-- Error messages and logs
+---
 
-### 💡 Feature Requests
-Have an idea for improvement?
+## 🖥️ Running the Project Locally
 
-**Before requesting:**
-- Check existing feature requests
-- Consider if it fits the project scope
-- Think about implementation complexity
+```bash
+# Activate virtual environment
+source venv/bin/activate       # Mac/Linux
+venv\Scripts\activate          # Windows
 
-**Include in your request:**
-- Clear description of the feature
-- Use cases and benefits
-- Possible implementation approach
-- Mockups or examples (if applicable)
+# Start Ollama
+ollama serve
 
-### 📖 Documentation
-Documentation improvements are always welcome!
-
-**Areas to contribute:**
-- Fix typos and grammar
-- Add missing information
-- Improve clarity and examples
-- Translate to other languages
-- Add video tutorials or guides
-
-### 🧪 Code Contributions
-Ready to code? Here's what we need:
-
-**Priority areas:**
-- Bug fixes
-- Performance improvements
-- New AI model integrations
-- UI/UX enhancements
-- Test coverage improvements
-
-## 🛠️ Development Guidelines
-
-### Code Style
-We follow Python PEP 8 with some modifications:
-
-```python
-# Use type hints
-def get_models() -> List[str]:
-    return ["model1", "model2"]
-
-# Clear variable names
-available_models = get_available_models()
-selected_model = st.selectbox("Model", available_models)
-
-# Docstrings for functions
-def format_prompt(education_level: str, subject: str, prompt: str) -> str:
-    """
-    Format a prompt for the AI model based on education level and subject.
-    
-    Args:
-        education_level: The student's education level
-        subject: The subject area for the prompt
-        prompt: The user's input prompt
-        
-    Returns:
-        Formatted prompt string for the AI model
-    """
-    pass
+# Run the app
+streamlit run app.py
 ```
 
-### File Structure
-```
-AI-Tutor/
-├── app.py                    # Main application
-├── components/               # Reusable UI components
-│   ├── __init__.py
-│   ├── sidebar.py           # Sidebar configuration
-│   ├── chat.py              # Chat interface
-│   └── models.py            # Model selection
-├── utils/                   # Utility functions
-│   ├── __init__.py
-│   ├── prompts.py           # Prompt formatting
-│   ├── models.py            # Model management
-│   └── config.py            # Configuration loading
-├── tests/                   # Test files
-└── docs/                    # Documentation
-```
+Open `http://localhost:8501` in your browser.
 
-### Testing
-We aim for high test coverage:
+---
+
+## 🧪 Running Tests
+
+Always run tests before opening a pull request:
 
 ```bash
 # Run all tests
-pytest
+pytest tests/ -v
 
-# Run with coverage
-pytest --cov=. --cov-report=html
-
-# Run specific test file
-pytest tests/test_models.py
-
-# Run integration tests
-pytest -m integration
+# Run with coverage report
+pytest tests/ -v --cov=app --cov-report=term-missing
 ```
 
-**Test requirements:**
-- Unit tests for new functions
-- Integration tests for new features
-- Mock external dependencies (Ollama)
-- Test edge cases and error conditions
+Make sure **all tests pass** and coverage stays **above 80%**.
 
-### Git Workflow
+If you add a new feature, add tests for it in `tests/test_app.py`.
 
-#### Commit Messages
-Use conventional commit format:
-```
-type(scope): description
+---
 
-body (optional)
+## 🔀 Opening a Pull Request
 
-footer (optional)
-```
-
-**Types:**
-- `feat`: New feature
-- `fix`: Bug fix
-- `docs`: Documentation changes
-- `style`: Code formatting
-- `refactor`: Code restructuring
-- `test`: Adding tests
-- `chore`: Maintenance tasks
-
-**Examples:**
-```
-feat(models): add support for llama3 model
-
-fix(ui): resolve sidebar layout issue on mobile
-
-docs(readme): update installation instructions
-
-test(models): add unit tests for model detection
-```
-
-#### Pull Request Process
-
-1. **Before submitting:**
-   - Sync with upstream: `git pull upstream main`
-   - Run tests: `pytest`
-   - Check code style: `flake8 .`
-   - Update documentation if needed
-
-2. **PR Requirements:**
-   - Clear title and description
-   - Reference related issues
-   - Include screenshots for UI changes
-   - Add tests for new functionality
-   - Update documentation
-
-3. **PR Template:**
-   ```markdown
-   ## Description
-   Brief description of changes
-   
-   ## Type of Change
-   - [ ] Bug fix
-   - [ ] New feature
-   - [ ] Documentation update
-   - [ ] Performance improvement
-   
-   ## Testing
-   - [ ] Tests pass locally
-   - [ ] Added new tests
-   - [ ] Manual testing completed
-   
-   ## Checklist
-   - [ ] Code follows style guidelines
-   - [ ] Self-review completed
-   - [ ] Documentation updated
-   - [ ] No breaking changes
+1. Push your branch to GitHub:
+   ```bash
+   git push origin feature/your-feature-name
    ```
 
-## 🧩 Specific Contribution Areas
+2. Go to the repository on GitHub and click **"Compare & pull request"**
 
-### Adding New AI Models
+3. Fill in the PR description:
+   - **What did you change?**
+   - **Why did you change it?**
+   - **How was it tested?**
 
-1. **Model Integration:**
-```python
-# In utils/models.py
-SUPPORTED_MODELS = {
-    'new-model': {
-        'name': 'New Model',
-        'size': '2GB',
-        'best_for': ['General'],
-        'install_command': 'ollama pull new-model'
-    }
-}
+4. Request a review from at least **one team member**
+
+5. Do not merge your own PR — let another team member review and merge
+
+---
+
+## 🎨 Code Style Guidelines
+
+- Follow **PEP 8** — use `flake8` to check:
+  ```bash
+  pip install flake8
+  flake8 app.py
+  ```
+- Use **meaningful variable names** — `subject`, `education_level` not `s`, `el`
+- Add **docstrings** to every function:
+  ```python
+  def build_prompt(mode, education_level, subject, user_input, num_questions=1):
+      """Build a subject/level-aware prompt based on the selected mode."""
+  ```
+- Keep functions **small and focused** — one function, one job
+- Remove **unused imports** before committing
+
+---
+
+## 📝 Commit Message Format
+
+Use clear, consistent commit messages:
+
+```
+type: short description
 ```
 
-2. **Update Configuration:**
-```yaml
-# In config/models.yaml
-preferred_models:
-  - "new-model:latest"
-```
+| Type | When to use |
+|------|-------------|
+| `feat` | Adding a new feature |
+| `fix` | Fixing a bug |
+| `docs` | Documentation changes |
+| `test` | Adding or updating tests |
+| `refactor` | Code cleanup without changing behaviour |
+| `chore` | Minor tasks (removing files, updating deps) |
 
-3. **Add Tests:**
-```python
-def test_new_model_detection():
-    # Test model detection logic
-    pass
-```
-
-### UI/UX Improvements
-
-1. **Component Structure:**
-```python
-# components/new_component.py
-import streamlit as st
-
-def render_new_component():
-    """Render a new UI component."""
-    with st.container():
-        # Component implementation
-        pass
-```
-
-2. **Styling:**
-```python
-# Use Streamlit's built-in styling
-st.markdown("""
-<style>
-    .custom-component {
-        /* Custom styles */
-    }
-</style>
-""", unsafe_allow_html=True)
-```
-
-### Performance Improvements
-
-1. **Caching:**
-```python
-@st.cache_data
-def expensive_operation():
-    # Cache expensive operations
-    pass
-```
-
-2. **Async Operations:**
-```python
-import asyncio
-
-async def async_model_call():
-    # Async model calls for better performance
-    pass
-```
-
-### Documentation Improvements
-
-1. **Code Documentation:**
-   - Add docstrings to all functions
-   - Include type hints
-   - Add inline comments for complex logic
-
-2. **User Documentation:**
-   - Update README for new features
-   - Add examples and tutorials
-   - Create troubleshooting guides
-
-## 🎯 Development Setup Details
-
-### Required Tools
-- Python 3.7+
-- Git
-- Ollama (for testing)
-- Code editor (VS Code recommended)
-
-### Development Dependencies
+**Examples:**
 ```bash
-# requirements-dev.txt
-pytest>=7.0.0
-pytest-cov>=4.0.0
-flake8>=5.0.0
-black>=22.0.0
-mypy>=0.991
-pre-commit>=2.20.0
-streamlit>=1.28.0
-ollama>=0.1.7
+git commit -m "feat: add quiz question count slider"
+git commit -m "fix: handle empty subject input"
+git commit -m "docs: update README with new subject input"
+git commit -m "test: add edge cases for build_prompt"
+git commit -m "chore: remove unused imports"
 ```
 
-### IDE Configuration
+---
 
-#### VS Code Settings
-```json
-{
-    "python.defaultInterpreterPath": "./ai-tutor-dev/bin/python",
-    "python.linting.enabled": true,
-    "python.linting.flake8Enabled": true,
-    "python.formatting.provider": "black",
-    "editor.formatOnSave": true
-}
-```
+## 🐛 Reporting Bugs
 
-#### Pre-commit Configuration
-```yaml
-# .pre-commit-config.yaml
-repos:
-  - repo: https://github.com/psf/black
-    rev: 22.10.0
-    hooks:
-      - id: black
-  - repo: https://github.com/PyCQA/flake8
-    rev: 5.0.4
-    hooks:
-      - id: flake8
-```
+If you find a bug:
 
-## 🔍 Code Review Process
+1. Check if it's already reported in [GitHub Issues](https://github.com/iayanbhunia/AI-Tutor/issues)
+2. If not, open a new issue with:
+   - **What happened?**
+   - **What did you expect?**
+   - **Steps to reproduce**
+   - **Your OS and Python version**
 
-### For Contributors
-- Respond to feedback promptly
-- Make requested changes
-- Keep PRs focused and small
-- Write clear commit messages
+---
 
-### For Reviewers
-- Be respectful and constructive
-- Focus on code quality and maintainability
-- Test changes locally when possible
-- Approve when ready for merge
+## 📞 Questions?
 
-## 🏆 Recognition
-
-Contributors will be recognized in:
-- README contributors section
-- Release notes
-- Special thanks in documentation
-
-## 📞 Getting Help
-
-### Development Questions
-- GitHub Discussions
-- Issue comments
-- Discord/Slack (if available)
-
-### Mentorship
-New contributors can request mentorship for:
-- First-time contributions
-- Complex features
-- Best practices guidance
-
-## 🎉 Thank You!
+Reach out to the team via:
+- 📧 Email: [imayan0904@gmail.com](mailto:imayan0904@gmail.com)
+- 💬 [GitHub Discussions](https://github.com/iayanbhunia/AI-Tutor/discussions)
