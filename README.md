@@ -16,7 +16,7 @@ A powerful, privacy-focused AI tutoring application that runs entirely on your l
 
 ### 🤖 **Dual Learning Modes**
 - **Explain a Topic**: Get detailed, step-by-step explanations with examples
-- **Generate a Quiz**: Create custom multiple-choice questions with explanations
+- **Generate a Quiz**: Create interactive multiple-choice quizzes — options appear as clickable buttons, correct answer and explanation are revealed only after you select an option
 
 ### 🔒 **100% Privacy**
 - **Local Processing**: All AI computations happen on your device
@@ -24,10 +24,12 @@ A powerful, privacy-focused AI tutoring application that runs entirely on your l
 - **Offline Capable**: Works without internet once models are downloaded
 
 ### 🧠 **Multiple AI Models**
-- **Gemma3**: Google's latest model, optimized for educational content
-- **DeepSeek Coder**: Specialized for programming and computer science
+- **Gemma3**: Google's latest model, optimized for educational content (recommended)
+- **Gemma2**: Lightweight alternative, good for lower-resource machines
 - **Llama3**: Meta's powerful general-purpose model
-- **Auto-Detection**: Automatically discovers installed Ollama models
+- **Mistral**: Fast and efficient general-purpose model
+- **DeepSeek Coder**: Specialized for programming and computer science
+- **Auto-Detection**: Automatically discovers all installed Ollama models and prioritizes by educational performance
 
 ## 🚀 Quick Start
 
@@ -76,18 +78,24 @@ A powerful, privacy-focused AI tutoring application that runs entirely on your l
 ## 🎮 How to Use
 
 ### 1. Configure Your Learning Preferences
-- **Education Level**: Select your current academic level
-- **Subject**: Type any subject you want to study (e.g. Math, Law, Economics)
+- **Education Level**: Select your current academic level (defaults to **High School**)
+- **Subject**: Type any subject you want to study (e.g. Math, Physics, Economics, Law) — defaults to **General** if left blank
 - **Mode**: Pick between explanation or quiz generation
+- **Number of Questions**: In quiz mode, choose 1–10 questions (defaults to **3**)
 - **AI Model**: The app will automatically detect and list available models
 
 ### 2. Ask Questions or Request Topics
 - **Explanation Mode**: "Explain photosynthesis" or "How does machine learning work?"
-- **Quiz Mode**: "Create a quiz about World War 2" or "Test me on calculus derivatives"
+- **Quiz Mode**: Type a topic and get an interactive quiz:
+  - A, B, C, D appear as **clickable buttons**
+  - After selecting, buttons are replaced with ✅ correct / ❌ wrong highlights
+  - 🎉 or ❌ result banner shown instantly
+  - 💡 Explanation revealed only after answering
 
 ### 3. Interactive Learning
 - Get detailed explanations with examples
-- Receive custom quizzes with immediate feedback
+- Answer quiz questions interactively with instant feedback
+- Correct answers and explanations are hidden until you choose
 - Build on previous conversations for deeper understanding
 
 ## 📁 Project Structure
@@ -97,6 +105,7 @@ AI-Tutor/
 ├── app.py                 # Main Streamlit application
 ├── requirements.txt       # Python dependencies
 ├── README.md             # Project documentation
+├── LICENSE               # MIT License
 ├── .gitignore           # Git ignore rules
 ├── assets/              # Images and media
 │   └── demo.gif         # Application demo
@@ -129,22 +138,41 @@ AI-Tutor/
 - Provides relevant examples and analogies for any topic
 
 ### 4. **Streaming Response Handler**
-- Real-time response display for better user experience
+- Real-time response display with a live `▌` cursor while generating
 - Handles connection errors gracefully
 - Provides visual feedback during generation
+- Shows a loading message for multi-question quizzes
 
-### 5. **Session Management**
-- Maintains conversation history
+### 5. **Quiz Parser (`parse_quiz()`)**
+- Parses AI response into structured question blocks
+- Handles both multiline and inline response formats as fallback
+- Extracts question, A–D options, correct letter, and explanation separately
+- Strips `[CORRECT]` from view until the user answers
+
+### 6. **Interactive Quiz Renderer (`render_quiz()`)**
+- Renders each question with four clickable option buttons
+- Reveals ✅ correct / ❌ wrong highlights after selection
+- Shows 💡 explanation only after an answer is chosen
+- Tracks answers per question in session state so they persist across reruns
+
+### 7. **Session Management**
+- Maintains conversation history across turns
+- Tracks quiz answers per question (`quiz_answers` state)
 - Preserves context across interactions
 - Enables follow-up questions and clarifications
+- Clearing conversation also resets all quiz answer state
 
 ## 🔧 Configuration
 
 ### Model Priority
 The application prioritizes models in the following order:
 1. `gemma3:latest` - Best for general education
-2. `deepseek-coder` - Optimal for programming topics
-3. `llama3` - Reliable general-purpose alternative
+2. `gemma3`
+3. `gemma2:2b` - Lightweight alternative
+4. `gemma2`
+5. `llama3` - Reliable general-purpose alternative
+6. `mistral` - Fast general-purpose model
+7. `deepseek-coder` - Optimal for programming topics
 
 ### Custom Model Configuration
 Edit `config/models.yaml` to customize model preferences:
