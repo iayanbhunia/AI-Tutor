@@ -37,19 +37,27 @@ def build_prompt(
         )
     else:  # Quiz mode
         return (
-            f"Generate exactly {num_questions} unique {education_level}-level {subject} quiz questions.\n"
-            "Format EACH question exactly like this (repeat for every question):\n\n"
-            "Q<number>. <question text>\n"
-            "A) <option>\n"
-            "B) <option>\n"
-            "C) <option>\n"
-            "D) <option>\n"
-            "[CORRECT] <correct letter>) <brief explanation>\n\n"
-            f"Topic: {user_input}\n"
-            f"- Generate all {num_questions} questions, no more, no less.\n"
-            "- Make every question different from the others.\n"
-            "- Vary the difficulty slightly across questions.\n"
-            "- Do not repeat options or answers across questions."
+            f"Generate exactly {num_questions} {education_level}-level {subject} quiz questions about: {user_input}\n\n"
+            "STRICT RULES - follow exactly:\n"
+            "1. Each question MUST be on its own line starting with Q1. Q2. etc.\n"
+            "2. Each option MUST be on its own separate line.\n"
+            "3. The correct answer line MUST be on its own line.\n"
+            "4. Do NOT put multiple items on the same line.\n\n"
+            "Use EXACTLY this format for every question, with each part on a new line:\n\n"
+            "Q1. <question text here>\n"
+            "A) <first option>\n"
+            "B) <second option>\n"
+            "C) <third option>\n"
+            "D) <fourth option>\n"
+            "[CORRECT] A) <brief explanation why A is correct>\n\n"
+            "Q2. <next question>\n"
+            "A) ...\n"
+            "B) ...\n"
+            "C) ...\n"
+            "D) ...\n"
+            "[CORRECT] B) <brief explanation>\n\n"
+            f"Now generate all {num_questions} questions following this exact format. "
+            "Every option on its own line. No combining lines."
         )
 
 
@@ -100,6 +108,113 @@ def get_available_models() -> list[str]:
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
+if "quiz_answers" not in st.session_state:
+    # Stores user's selected answer per question key
+    # key: "{message_index}_{question_index}", value: selected letter e.g. "A"
+    st.session_state.quiz_answers = {}
+
+
+# ── Quiz Parser ───────────────────────────────────────────────────────────────
+
+import re
+
+def parse_quiz(text: str) -> list[dict]:
+    """
+    Parse a quiz response into structured question blocks.
+    Handles both multiline format and inline format as fallback.
+    """
+    questions = []
+
+    # Normalise — replace common inline separators the model might use
+    text = text.replace(" A) ", "\nA) ").replace(" B) ", "\nB) ")
+    text = text.replace(" C) ", "\nC) ").replace(" D) ", "\nD) ")
+    text = text.replace(" [CORRECT]", "\n[CORRECT]")
+
+    # Split into question blocks on Q1. Q2. etc.
+    blocks = re.split(r'(?=Q\d+\.)', text.strip())
+
+    for block in blocks:
+        block = block.strip()
+        if not block:
+            continue
+
+        q_match = re.match(r'Q\d+\.\s*(.+)', block)
+        if not q_match:
+            continue
+
+        question_text = q_match.group(1).strip()
+
+        # Extract [CORRECT] line first before option parsing
+        correct_match = re.search(r'\[CORRECT\]\s*([A-D])\)\s*(.+)', block)
+        correct_letter = correct_match.group(1).strip() if correct_match else None
+        explanation = correct_match.group(2).strip() if correct_match else None
+
+        # Remove [CORRECT] line so it doesn't pollute option parsing
+        block_clean = re.sub(r'\[CORRECT\].*', '', block)
+
+        # Parse options — anchored to start of line
+        options = {}
+        for letter in ["A", "B", "C", "D"]:
+            opt_match = re.search(rf'^{letter}\)\s*(.+)', block_clean, re.MULTILINE)
+            if opt_match:
+                options[letter] = opt_match.group(1).strip()
+
+        if question_text and len(options) >= 2 and correct_letter:
+            questions.append({
+                "question": question_text,
+                "options": options,
+                "correct": correct_letter,
+                "explanation": explanation,
+            })
+
+    return questions
+
+
+def render_quiz(questions: list[dict], msg_index: int):
+    """Render interactive quiz questions with hidden answers."""
+    for q_index, q in enumerate(questions):
+        key = f"{msg_index}_{q_index}"
+        st.markdown(f"**Q{q_index + 1}. {q['question']}**")
+
+        selected = st.session_state.quiz_answers.get(key)
+
+        if selected is None:
+            # Show option buttons
+            cols = st.columns(4)
+            for i, letter in enumerate(["A", "B", "C", "D"]):
+                if letter in q["options"]:
+                    if cols[i].button(
+                        f"{letter}) {q['options'][letter]}",
+                        key=f"btn_{key}_{letter}",
+                        use_container_width=True,
+                    ):
+                        st.session_state.quiz_answers[key] = letter
+                        st.rerun()
+        else:
+            # Show result banner
+            if selected == q["correct"]:
+                st.success("🎉 Correct!")
+            else:
+                st.error(f"❌ Wrong! The correct answer is **{q['correct']}**.")
+
+            # Show all options with correct/wrong highlighting
+            for letter in ["A", "B", "C", "D"]:
+                if letter not in q["options"]:
+                    continue
+                option_text = f"{letter}) {q['options'][letter]}"
+                if letter == q["correct"]:
+                    st.success(f"✅ {option_text}")
+                elif letter == selected:
+                    st.error(f"❌ {option_text}")
+                else:
+                    st.markdown(f"&nbsp;&nbsp;&nbsp;&nbsp;{option_text}")
+
+            # Show explanation
+            if q["explanation"]:
+                st.info(f"💡 **Explanation:** {q['explanation']}")
+
+        st.markdown("---")
+
 
 # ── Page Title ────────────────────────────────────────────────────────────────
 
@@ -117,9 +232,10 @@ with st.sidebar:
         index=1,
     )
 
-    # Free text subject — no hints, no specific names
+    # FREE TEXT subject input — type anything
     custom_subject = st.text_input(
         "Enter a subject",
+        placeholder="e.g. Math, Physics, Economics, Law...",
         max_chars=50,
     )
     subject = custom_subject.strip() if custom_subject.strip() else "General"
@@ -175,17 +291,26 @@ with st.sidebar:
         st.code("ollama pull llama3\nollama pull deepseek-coder", language="bash")
         model_name = None
 
+
     # Clear conversation
     if st.button("🗑️ Clear Conversation"):
         st.session_state.messages = []
+        st.session_state.quiz_answers = {}
         st.rerun()
 
 
 # ── Chat History Display ──────────────────────────────────────────────────────
 
-for message in st.session_state.messages:
+for msg_index, message in enumerate(st.session_state.messages):
     with st.chat_message(message["role"]):
-        st.markdown(message["content"])
+        if message["role"] == "assistant" and message.get("is_quiz"):
+            questions = parse_quiz(message["content"])
+            if questions:
+                render_quiz(questions, msg_index)
+            else:
+                st.markdown(message["content"])
+        else:
+            st.markdown(message["content"])
 
 
 # ── Chat Input & Response ─────────────────────────────────────────────────────
@@ -193,7 +318,7 @@ for message in st.session_state.messages:
 chat_placeholder = (
     f"Enter a topic to generate {num_questions} question{'s' if num_questions > 1 else ''}..."
     if mode == "Generate a Quiz"
-    else "Ask a question..."
+    else f"Ask a {subject} question..."
 )
 
 if prompt := st.chat_input(chat_placeholder):
@@ -215,15 +340,18 @@ if prompt := st.chat_input(chat_placeholder):
     with st.chat_message("assistant"):
         message_placeholder = st.empty()
 
+        # Show a loading hint for multi-question quizzes
         if mode == "Generate a Quiz" and num_questions > 1:
             message_placeholder.markdown(f"⏳ Generating {num_questions} questions, please wait...")
 
         full_response = ""
 
+        # Build prompt via extracted function
         system_prompt = build_prompt(
             mode, education_level, subject, prompt, num_questions
         )
 
+        # Pass full conversation history so the model has context
         history = [
             {"role": m["role"], "content": m["content"]}
             for m in st.session_state.messages[:-1]
@@ -241,7 +369,17 @@ if prompt := st.chat_input(chat_placeholder):
                 full_response += chunk["message"]["content"]
                 message_placeholder.markdown(full_response + "▌")
 
-            message_placeholder.markdown(full_response)
+            message_placeholder.empty()
+
+            # Render quiz interactively, or show plain text for explain mode
+            if mode == "Generate a Quiz":
+                questions = parse_quiz(full_response)
+                if questions:
+                    render_quiz(questions, len(st.session_state.messages))
+                else:
+                    message_placeholder.markdown(full_response)
+            else:
+                message_placeholder.markdown(full_response)
 
         except ollama.ResponseError:
             error_msg = (
@@ -256,4 +394,9 @@ if prompt := st.chat_input(chat_placeholder):
             message_placeholder.markdown(error_msg)
             full_response = error_msg
 
-        st.session_state.messages.append({"role": "assistant", "content": full_response})
+        # Save assistant reply to session history
+        st.session_state.messages.append({
+            "role": "assistant",
+            "content": full_response,
+            "is_quiz": mode == "Generate a Quiz",
+        })
