@@ -275,7 +275,3 @@ We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.
 
 ---
 
-<div align="center">
-  <p>Made with ❤️ for learners everywhere</p>
-  <p>⭐ Star this repo if you find it helpful!</p>
-</div>
